@@ -25,31 +25,26 @@ stages:
   train:
     cmd: python src/train.py
     deps:
-    - path: data/augmented
-      hash: md5
-      md5: 6c52104d055993c464d2806453ecf3b7.dir
-      size: 80349833
-      nfiles: 3124
     - path: params.yaml
       hash: md5
-      md5: b11a53fb6595877186a9d3de81b84672
-      size: 335
+      md5: 59511d5a7bc9255585402ff07f86f756
+      size: 426
     - path: src/prepare_data.py
       hash: md5
-      md5: c3bb92253cdb3556caa53a2263368888
-      size: 2113
+      md5: deb0ecf9e6a3c258c4b6b780f3eb826d
+      size: 2108
     - path: src/train.py
       hash: md5
-      md5: 2c99cc62ed3ad014adca1d56743029a9
-      size: 5811
+      md5: bfc6129e6c90d78e2730de94740a96e4
+      size: 5527
     outs:
     - path: metrics/metrics_summary.json
       hash: md5
-      md5: b3494ccd339ca8a7d7340bfaa6f8fc6a
-      size: 4609
+      md5: b221be3af99423b711fd51bd0ce8b1a6
+      size: 4593
     - path: models
       hash: md5
-      md5: 3ed18ecc1036de91ba7d0ea6014947f4.dir
+      md5: 58a56dc5f49512eb518056b57c8517ef.dir
       size: 67485375
       nfiles: 3
   augment:
