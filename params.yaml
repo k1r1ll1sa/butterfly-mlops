@@ -1,0 +1,23 @@
+# Параметры подвыборки
+subset:
+  n_classes: 15
+  train_per_class: 150
+  val_per_class: 30
+  test_per_class: 30
+  seed: 42
+
+# Параметры обучения
+train:
+  batch_size: 16
+  epochs: 10
+  lr: 0.001
+  num_workers: 4
+  device: "cpu"
+
+# Пути
+paths:
+  raw: "data/raw"
+  subset: "data/subset"
+  processed: "data/processed"
+  augmented: "data/augmented"
+  models: "models"
