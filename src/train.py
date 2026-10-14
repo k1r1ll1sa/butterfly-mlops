@@ -68,7 +68,7 @@ def validate(model, loader, criterion, device):
 
 
 def train_model(model_name: str, params: dict):
-    train_loader, val_loader, test_loader, classes = prepare_data(params)
+    train_loader, val_loader, classes = prepare_data(params)
     num_classes = len(classes)
     train_cfg = params["train"]
     device = torch.device(train_cfg["device"])
@@ -113,8 +113,6 @@ def train_model(model_name: str, params: dict):
         "final_train_acc": float(train_acc),
         "final_val_loss": float(val_loss),
         "final_val_acc": float(val_acc),
-        "test_loss": float(test_loss),
-        "test_acc": float(test_acc),
         "history": history
     }
 
@@ -133,12 +131,12 @@ if __name__ == "__main__":
         all_metrics[model_name] = train_model(model_name, params)
 
     print(f"\n{'=' * 60}")
-    print("📊 ИТОГОВАЯ ТАБЛИЦА")
+    print("ИТОГОВАЯ ТАБЛИЦА")
     print(f"{'=' * 60}")
-    print(f"{'Модель':<25} {'Train Acc':<12} {'Val Acc':<12} {'Test Acc':<12}")
+    print(f"{'Модель':<25} {'Train Acc':<12} {'Val Acc':<12}")
     print("-" * 60)
     for name, m in all_metrics.items():
-        print(f"{name:<25} {m['final_train_acc']:>8.2f}%  {m['final_val_acc']:>8.2f}%  {m['test_acc']:>8.2f}%")
+        print(f"{name:<25} {m['final_train_acc']:>8.2f}%  {m['final_val_acc']:>8.2f}%")
 
     summary_path = Path("metrics") / "metrics_summary.json"
     with open(summary_path, "w", encoding="utf-8") as f:

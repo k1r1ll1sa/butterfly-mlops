@@ -20,7 +20,7 @@ def get_transforms():
 
 
 def prepare_data(params: dict):
-    """Создаёт DataLoader'ы для train/val/test."""
+    """Создаёт DataLoader'ы для train/val"""
     data_dir = Path(params.get("data_dir", "data/subset"))
 
     train_cfg = params["train"]
@@ -28,7 +28,6 @@ def prepare_data(params: dict):
 
     train_dataset = datasets.ImageFolder(root=data_dir / "train", transform=train_transform)
     val_dataset = datasets.ImageFolder(root=data_dir / "val", transform=val_transform)
-    test_dataset = datasets.ImageFolder(root=data_dir / "test", transform=val_transform)
 
     train_loader = DataLoader(
         train_dataset,

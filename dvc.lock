@@ -10,16 +10,16 @@ stages:
       nfiles: 9287
     - path: params.yaml
       hash: md5
-      md5: b11a53fb6595877186a9d3de81b84672
-      size: 335
+      md5: 59511d5a7bc9255585402ff07f86f756
+      size: 426
     - path: src/make_subset.py
       hash: md5
-      md5: 46fba12ebe0786fb722cf36d34e6ef00
-      size: 3875
+      md5: 08e2aab80734dcd1702f42541580856e
+      size: 2969
     outs:
     - path: data/subset
       hash: md5
-      md5: c684e963ce8a7ab62659c85138622c57.dir
+      md5: 0d9a81a10d53fbb427080a5050e91cf5.dir
       size: 35586143
       nfiles: 1310
   train:
@@ -31,20 +31,20 @@ stages:
       size: 426
     - path: src/prepare_data.py
       hash: md5
-      md5: deb0ecf9e6a3c258c4b6b780f3eb826d
-      size: 2108
+      md5: 748beb7c1604d5cef51edea7f2e3462c
+      size: 1752
     - path: src/train.py
       hash: md5
-      md5: bfc6129e6c90d78e2730de94740a96e4
-      size: 5527
+      md5: c32e5bf0630c73e6df62b4d8292c19ce
+      size: 5253
     outs:
     - path: metrics/metrics_summary.json
       hash: md5
-      md5: b221be3af99423b711fd51bd0ce8b1a6
-      size: 4593
+      md5: 0e7e921aaadbc8edf31f1d72480b7456
+      size: 4431
     - path: models
       hash: md5
-      md5: 58a56dc5f49512eb518056b57c8517ef.dir
+      md5: 6f76c16679194c7a21f85c9e93a3bb52.dir
       size: 67485375
       nfiles: 3
   augment:
@@ -52,20 +52,20 @@ stages:
     deps:
     - path: data/subset
       hash: md5
-      md5: c684e963ce8a7ab62659c85138622c57.dir
+      md5: 0d9a81a10d53fbb427080a5050e91cf5.dir
       size: 35586143
       nfiles: 1310
     - path: params.yaml
       hash: md5
-      md5: b11a53fb6595877186a9d3de81b84672
-      size: 335
+      md5: 59511d5a7bc9255585402ff07f86f756
+      size: 426
     - path: src/augment.py
       hash: md5
-      md5: d1351f53d8e0ecdc5ed2fafbbe726438
-      size: 2108
+      md5: 6b8aed8714ec1ffc292dd157b1a9d249
+      size: 2156
     outs:
     - path: data/augmented
       hash: md5
-      md5: 6c52104d055993c464d2806453ecf3b7.dir
-      size: 80349833
+      md5: ef4ac0e149fa92801a03c2910154f4af.dir
+      size: 80061187
       nfiles: 3124
