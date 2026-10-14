@@ -11,6 +11,16 @@ def load_params(path="params.yaml"):
         return yaml.safe_load(f)
 
 
+def copy_dir_contents(src_dir: Path, dst_dir: Path):
+    dst_dir.mkdir(parents=True, exist_ok=True)
+    for item in src_dir.rglob("*"):
+        if item.is_file():
+            relative_path = item.relative_to(src_dir)
+            dst_file = dst_dir / relative_path
+            dst_file.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(item, dst_file)
+
+
 def augment_data(params: dict):
     subset_dir = Path(params["paths"]["subset"])
     aug_dir = Path(params["paths"]["augmented"])
@@ -18,7 +28,6 @@ def augment_data(params: dict):
     if aug_dir.exists():
         shutil.rmtree(aug_dir)
 
-    # Настраиваем пайплайн аугментации с актуальным синтаксисом albumentations
     transform = A.Compose([
         A.HorizontalFlip(p=0.5),
         A.RandomBrightnessContrast(p=0.3),
@@ -28,6 +37,8 @@ def augment_data(params: dict):
 
     train_dir = subset_dir / "train"
     aug_train_dir = aug_dir / "train"
+
+    print(f"Аугментация папки: {train_dir}")
 
     for class_dir in tqdm(train_dir.iterdir(), desc="Классы"):
         if not class_dir.is_dir():
@@ -41,6 +52,8 @@ def augment_data(params: dict):
                 shutil.copy2(img_path, dst_class_dir / img_path.name)
 
                 img = cv2.imread(str(img_path))
+                if img is None:
+                    continue
                 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
                 for i in range(2):
@@ -48,16 +61,40 @@ def augment_data(params: dict):
                     aug_img = augmented['image']
                     aug_img = cv2.cvtColor(aug_img, cv2.COLOR_RGB2BGR)
 
-                    aug_name = f"aug_{i}_{img_path.name}"
+                    aug_name = f"aug_{i}_{img_path.stem}{img_path.suffix}"
                     cv2.imwrite(str(dst_class_dir / aug_name), aug_img)
 
     for split in ["val", "test"]:
         src_split_dir = subset_dir / split
         dst_split_dir = aug_dir / split
-        if src_split_dir.exists():
-            shutil.copytree(src_split_dir, dst_split_dir)
 
-    print(f"\nАугментация завершена")
+        if src_split_dir.exists():
+            src_files = list(src_split_dir.rglob("*"))
+            src_files = [f for f in src_files if f.is_file()]
+            print(f" Копируем {split}: {len(src_files)} файлов из {src_split_dir}")
+
+            copy_dir_contents(src_split_dir, dst_split_dir)
+
+            dst_files = list(dst_split_dir.rglob("*"))
+            dst_files = [f for f in dst_files if f.is_file()]
+            print(f"✅ {split} скопирован: {len(dst_files)} файлов в {dst_split_dir}")
+
+            if len(dst_files) == 0:
+                print(f"ОШИБКА: {split} не скопирован")
+        else:
+            pass
+
+    print(f"\n{'=' * 60}")
+    print("Статистика аугментированного датасета:")
+    print(f"{'=' * 60}")
+    for split in ["train", "val", "test"]:
+        split_dir = aug_dir / split
+        if split_dir.exists():
+            files = list(split_dir.rglob("*"))
+            files = [f for f in files if f.is_file()]
+            classes = [d for d in split_dir.iterdir() if d.is_dir()]
+            print(f"  {split}: {len(classes)} классов, {len(files)} файлов")
+    print(f"{'=' * 60}")
 
 
 if __name__ == "__main__":

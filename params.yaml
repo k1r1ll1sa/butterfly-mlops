@@ -1,4 +1,4 @@
-data_dir: "data/subset"
+data_dir: "data/augmented"
 
 # Параметры подвыборки
 subset:
