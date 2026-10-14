@@ -1,0 +1,30 @@
+stages:
+  subset:
+    cmd: python src/make_subset.py
+    deps:
+      - data/raw
+      - src/make_subset.py
+      - params.yaml
+    outs:
+      - data/subset
+
+  augment:
+    cmd: python src/augment.py
+    deps:
+      - data/subset
+      - src/augment.py
+      - params.yaml
+    outs:
+      - data/augmented
+
+  train:
+    cmd: python src/train.py
+    deps:
+      - src/train.py
+      - src/prepare_data.py
+      - params.yaml
+    outs:
+      - models
+    metrics:
+      - metrics/metrics_summary.json:
+          cache: false

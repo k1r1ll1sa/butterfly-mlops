@@ -1,0 +1,76 @@
+schema: '2.0'
+stages:
+  subset:
+    cmd: python src/make_subset.py
+    deps:
+    - path: data/raw
+      hash: md5
+      md5: ec0b9ccefb76c7d426e69c39068e9d39.dir
+      size: 237307124
+      nfiles: 9287
+    - path: params.yaml
+      hash: md5
+      md5: b11a53fb6595877186a9d3de81b84672
+      size: 335
+    - path: src/make_subset.py
+      hash: md5
+      md5: 46fba12ebe0786fb722cf36d34e6ef00
+      size: 3875
+    outs:
+    - path: data/subset
+      hash: md5
+      md5: c684e963ce8a7ab62659c85138622c57.dir
+      size: 35586143
+      nfiles: 1310
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: data/augmented
+      hash: md5
+      md5: 6c52104d055993c464d2806453ecf3b7.dir
+      size: 80349833
+      nfiles: 3124
+    - path: params.yaml
+      hash: md5
+      md5: b11a53fb6595877186a9d3de81b84672
+      size: 335
+    - path: src/prepare_data.py
+      hash: md5
+      md5: c3bb92253cdb3556caa53a2263368888
+      size: 2113
+    - path: src/train.py
+      hash: md5
+      md5: 2c99cc62ed3ad014adca1d56743029a9
+      size: 5811
+    outs:
+    - path: metrics/metrics_summary.json
+      hash: md5
+      md5: b3494ccd339ca8a7d7340bfaa6f8fc6a
+      size: 4609
+    - path: models
+      hash: md5
+      md5: 3ed18ecc1036de91ba7d0ea6014947f4.dir
+      size: 67485375
+      nfiles: 3
+  augment:
+    cmd: python src/augment.py
+    deps:
+    - path: data/subset
+      hash: md5
+      md5: c684e963ce8a7ab62659c85138622c57.dir
+      size: 35586143
+      nfiles: 1310
+    - path: params.yaml
+      hash: md5
+      md5: b11a53fb6595877186a9d3de81b84672
+      size: 335
+    - path: src/augment.py
+      hash: md5
+      md5: d1351f53d8e0ecdc5ed2fafbbe726438
+      size: 2108
+    outs:
+    - path: data/augmented
+      hash: md5
+      md5: 6c52104d055993c464d2806453ecf3b7.dir
+      size: 80349833
+      nfiles: 3124
