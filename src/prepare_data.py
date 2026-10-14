@@ -42,22 +42,15 @@ def prepare_data(params: dict):
         shuffle=False,
         num_workers=train_cfg["num_workers"]
     )
-    test_loader = DataLoader(
-        test_dataset,
-        batch_size=train_cfg["batch_size"],
-        shuffle=False,
-        num_workers=train_cfg["num_workers"]
-    )
 
     print(f"  DataLoaders созданы для папки: {data_dir}")
     print(f"  Train: {len(train_dataset)} изображений")
     print(f"  Val: {len(val_dataset)} изображений")
-    print(f"  Test: {len(test_dataset)} изображений")
     print(f"  Классы: {len(train_dataset.classes)}")
 
-    return train_loader, val_loader, test_loader, train_dataset.classes
+    return train_loader, val_loader, train_dataset.classes
 
 
 if __name__ == "__main__":
     params = load_params()
-    train_loader, val_loader, test_loader, classes = prepare_data(params)
+    train_loader, val_loader, classes = prepare_data(params)

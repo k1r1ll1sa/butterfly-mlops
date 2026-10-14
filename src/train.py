@@ -94,9 +94,6 @@ def train_model(model_name: str, params: dict):
         print(f"  Train: loss={train_loss:.4f}, acc={train_acc:.2f}%")
         print(f"  Val:   loss={val_loss:.4f}, acc={val_acc:.2f}%")
 
-    test_loss, test_acc = validate(model, test_loader, criterion, device)
-    print(f"\nTest: loss={test_loss:.4f}, acc={test_acc:.2f}%")
-
     models_dir = Path(params["paths"]["models"])
     models_dir.mkdir(parents=True, exist_ok=True)
 

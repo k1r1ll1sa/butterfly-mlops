@@ -69,15 +69,16 @@ def make_subset(params: dict):
         images = classes_dict[cls_name]
         random.shuffle(images)
 
-        n_train = cfg["train_per_class"]
-        n_val = cfg["val_per_class"]
-        n_test = cfg["test_per_class"]
+        total = len(images)
+        n_train = int(total * 0.7)
+        n_val = total - n_train
 
         train_imgs = images[:n_train]
-        val_imgs = images[n_train: n_train + n_val]
-        test_imgs = images[n_train + n_val: n_train + n_val + n_test]
+        val_imgs = images[n_train:]
 
-        for split, split_imgs in [("train", train_imgs), ("val", val_imgs), ("test", test_imgs)]:
+        for split, split_imgs in [("train", train_imgs), ("val", val_imgs)]:
+            if not split_imgs:
+                continue
             dst_dir = subset_dir / split / cls_name
             dst_dir.mkdir(parents=True, exist_ok=True)
             for img in split_imgs:
